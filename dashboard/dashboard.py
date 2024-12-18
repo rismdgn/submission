@@ -4,8 +4,8 @@ import matplotlib.pyplot as plt
 import streamlit as st
 
 # Load dataset
-hour_df = pd.read_csv("main_data.csv")
-day_df = pd.read_csv("main_data.csv")
+hour_df = pd.read_csv("dashboard/main_data.csv")
+day_df = pd.read_csv("dashboard/main_data.csv")
 
 # Mapping weather condition
 weather_mapping = {
