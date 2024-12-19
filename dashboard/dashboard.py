@@ -45,8 +45,11 @@ selected_weather = st.sidebar.multiselect(
 
 hour_df['dteday'] = pd.to_datetime(hour_df['dteday'])
 
-hour_df['hour'] = pd.to_datetime(hour_df['datetime']).dt.hour
-
+if 'hour' in hour_df.columns:
+    hour_df['hour'] = hour_df['hour']
+else:
+    st.warning("Column 'hour' not found in dataset. Please verify dataset structure.")
+    
 # Apply filters to the dataset
 filtered_df = hour_df[
     (hour_df['dteday'] >= pd.to_datetime(start_date)) &
