@@ -16,26 +16,6 @@ st.sidebar.header("Filters")
 start_date = st.sidebar.date_input("Start Date", pd.to_datetime(hour_df['dteday']).min().date())
 end_date = st.sidebar.date_input("End Date", pd.to_datetime(hour_df['dteday']).max().date())
 
-# Filter berdasarkan musim
-season_mapping = {
-    1: 'Spring',
-    2: 'Summer',
-    3: 'Fall',
-    4: 'Winter'
-}
-selected_season = st.sidebar.multiselect(
-    "Select Season(s)",
-    options=list(season_mapping.values()),
-    default=list(season_mapping.values())
-)
-
-# Apply filters to the dataset
-filtered_df = hour_df[
-    (hour_df['dteday'] >= pd.to_datetime(start_date)) &
-    (hour_df['dteday'] <= pd.to_datetime(end_date)) &
-    (hour_df['season'].map(season_mapping).isin(selected_season))
-]
-
 # Mapping weather condition
 weather_mapping = {
     1: 'Clear/Partly Cloudy',
