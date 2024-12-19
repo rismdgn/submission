@@ -41,7 +41,7 @@ def assign_time_of_day(hr):
         return 'Afternoon'
     elif 18 <= hr <= 21:
         return 'Evening'
-    else:
+    elif 22 <= hr <= 23 or 0 <= hr <= 4:
         return 'Night'
 
 hour_df['time_of_day'] = hour_df['hr'].apply(assign_time_of_day)
@@ -108,8 +108,6 @@ elif analysis_option == "Dampak Cuaca pada Peminjaman Sepeda":
 
 elif analysis_option == "Waktu Peminjaman Sepeda":
     st.write("## Waktu Peminjaman Sepeda")
-
-    st.write((hour_df[['hr', 'time_of_day']].head(24)))
     
     time_group = hour_df.groupby('time_of_day')['cnt'].mean().reset_index()
 
