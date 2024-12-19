@@ -10,13 +10,13 @@ day_df = pd.read_csv("dashboard/main_data.csv")
 st.title("Bike Sharing Data Analysis")
 
 # Sidebar for interactivity
-st.sidebar.header("Analysis Options")
+st.sidebar.header("Pilihan Analisis")
 analysis_option = st.sidebar.selectbox(
-    "Select Analysis to Display",
+    "Pilih analisis yang ingin ditampilkan",
     [
         "Trends Over Time",
-        "Weather Impact on Rentals",
-        "Bike Rentals by Time of Day"
+        "Dampak Cuaca pada Peminjaman Sepeda",
+        "Waktu Peminjaman Sepeda"
     ]
 )
 
@@ -52,12 +52,12 @@ if analysis_option == "Trends Over Time":
     
     # Hourly trend
     hourly_trend = hour_df.groupby('hour')['cnt'].mean().reset_index()
-    st.write("### Hourly Trends")
+    st.write("### Tren berdasarkan Jam")
     fig_hour, ax_hour = plt.subplots()
     sns.lineplot(x='hour', y='cnt', data=hourly_trend, ax=ax_hour, marker='o', color='blue')
-    ax_hour.set_title('Average Bike Rentals by Hour')
-    ax_hour.set_xlabel('Hour of the Day')
-    ax_hour.set_ylabel('Average Bike Rentals')
+    ax_hour.set_title('Rata rata peminjam sepeda berdasarkan jam')
+    ax_hour.set_xlabel('Jam')
+    ax_hour.set_ylabel('Rata rata jumlah peminjam sepeda')
     ax_hour.grid(True)
     ax_hour.set_xticks(range(24))
     st.pyplot(fig_hour)
@@ -65,55 +65,55 @@ if analysis_option == "Trends Over Time":
     # Weekly trend
     day_trend = hour_df.groupby('weekday')['cnt'].mean().reset_index()
     weekday_mapping = {
-        0: 'Sunday', 1: 'Monday', 2: 'Tuesday', 3: 'Wednesday',
-        4: 'Thursday', 5: 'Friday', 6: 'Saturday'
+        0: 'Minggu', 1: 'Senin', 2: 'Selasa', 3: 'Rabu',
+        4: 'Kamis', 5: 'Jumat', 6: 'Sabtu'
     }
     day_trend['weekday'] = day_trend['weekday'].map(weekday_mapping)
-    st.write("### Weekly Trends")
+    st.write("### Tren berdasarkan Hari")
     fig_day, ax_day = plt.subplots()
     sns.barplot(x='weekday', y='cnt', data=day_trend, ax=ax_day, palette='viridis')
-    ax_day.set_title('Average Bike Rentals by Day of the Week')
-    ax_day.set_xlabel('Day of the Week')
-    ax_day.set_ylabel('Average Bike Rentals')
+    ax_day.set_title('Rata rata peminjam sepeda berdasarkan hari')
+    ax_day.set_xlabel('Hari')
+    ax_day.set_ylabel('Rata rata jumlah peminjam sepeda')
     ax_day.set_xticklabels(ax_day.get_xticklabels(), rotation=30)
     st.pyplot(fig_day)
 
     # Monthly trend
     monthly_trend = hour_df.groupby('mnth')['cnt'].mean().reset_index()
-    st.write("### Monthly Trends")
+    st.write("### Tren berdasarkan Bulan")
     fig_month, ax_month = plt.subplots()
     sns.lineplot(x='mnth', y='cnt', data=monthly_trend, ax=ax_month, marker='o', color='green')
-    ax_month.set_title('Average Bike Rentals by Month')
-    ax_month.set_xlabel('Month')
-    ax_month.set_ylabel('Average Bike Rentals')
+    ax_month.set_title('Rata rata peminjam sepeda berdasarkan bulan')
+    ax_month.set_xlabel('Bulan')
+    ax_month.set_ylabel('Rata rata peminjam sepeda')
     ax_month.set_xticks(range(1, 13))
-    ax_month.set_xticklabels(['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'])
+    ax_month.set_xticklabels(['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agt', 'Sep', 'Okt', 'Nov', 'Des'])
     ax_month.grid(True)
     st.pyplot(fig_month)
 
-elif analysis_option == "Weather Impact on Rentals":
-    st.write("## Weather Impact on Rentals")
+elif analysis_option == "Dampak Cuaca pada Peminjaman Sepeda":
+    st.write("## Dampak Cuaca pada Peminjaman Sepeda")
     
     # Average rentals by weather
     avg_rentals_by_weather = day_df.groupby('weathersit')['cnt'].mean()
     st.write("### Average Rentals by Weather Situation")
     fig_weather, ax_weather = plt.subplots(figsize=(10, 6))
     avg_rentals_by_weather.plot(kind='bar', color=['green', 'orange', 'blue', 'red'], ax=ax_weather)
-    ax_weather.set_title('Average Bike Rentals by Weather Situation')
-    ax_weather.set_xlabel('Weather Situation')
-    ax_weather.set_ylabel('Average Bike Rentals')
+    ax_weather.set_title('Rata rata peminjam sepeda berdasarkan kondisi cuaca')
+    ax_weather.set_xlabel('Kondisi Cuaca')
+    ax_weather.set_ylabel('Rata rata jumlah peminjam sepeda')
     ax_weather.set_xticklabels(['Clear', 'Mist', 'Rain', 'Snow'], rotation=45)
     ax_weather.grid(True)
     st.pyplot(fig_weather)
 
-elif analysis_option == "Bike Rentals by Time of Day":
-    st.write("## Bike Rentals by Time of Day")
+elif analysis_option == "Waktu Peminjaman Sepeda":
+    st.write("## Waktu Peminjaman Sepeda")
     time_group = hour_df.groupby('time_of_day')['cnt'].mean().reset_index()
-    
-    # Sort the time_of_day column to maintain the correct order (Morning, Afternoon, Evening, Night)
+
+    # Sort hasil
     time_group = time_group.sort_values(by='time_of_day', key=lambda x: x.map({'Morning': 1, 'Afternoon': 2, 'Evening': 3}))
     
-    st.write("### Average Bike Rentals by Time of Day")
+    st.write("### Persebaran waktu peminjaman sepeda")
     
     # Create the barplot with customized style
     fig_time, ax_time = plt.subplots(figsize=(10, 6))
@@ -122,9 +122,9 @@ elif analysis_option == "Bike Rentals by Time of Day":
     sns.barplot(x='time_of_day', y='cnt', data=time_group, ax=ax_time, palette='Blues_d')
     
     # Add title, labels, and grid as in your original code
-    ax_time.set_title('Average Bike Rentals by Time of Day')
-    ax_time.set_xlabel('Time of Day')
-    ax_time.set_ylabel('Average Bike Rentals')
+    ax_time.set_title('Rata rata jumlah peminjam sepeda berdasarkan waktu')
+    ax_time.set_xlabel('Waktu')
+    ax_time.set_ylabel('Rata rata jumlah peminjam sepeda')
     
     # Customize gridlines (similar to your plot)
     ax_time.grid(True)
