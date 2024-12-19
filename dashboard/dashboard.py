@@ -7,7 +7,7 @@ import streamlit as st
 hour_df = pd.read_csv("dashboard/main_data.csv")
 day_df = pd.read_csv("dashboard/main_data.csv")
 
-st.title("Bike Sharing Data Analysis")
+st.title("Bike Sharing Data Analysi")
 
 # Sidebar untuk filter interaktif
 st.sidebar.header("Filters")
