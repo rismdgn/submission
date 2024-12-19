@@ -7,6 +7,35 @@ import streamlit as st
 hour_df = pd.read_csv("dashboard/main_data.csv")
 day_df = pd.read_csv("dashboard/main_data.csv")
 
+st.title("Bike Sharing Data Analysis")
+
+# Sidebar untuk filter interaktif
+st.sidebar.header("Filters")
+
+# Filter berdasarkan tanggal
+start_date = st.sidebar.date_input("Start Date", pd.to_datetime(hour_df['dteday']).min().date())
+end_date = st.sidebar.date_input("End Date", pd.to_datetime(hour_df['dteday']).max().date())
+
+# Filter berdasarkan musim
+season_mapping = {
+    1: 'Spring',
+    2: 'Summer',
+    3: 'Fall',
+    4: 'Winter'
+}
+selected_season = st.sidebar.multiselect(
+    "Select Season(s)",
+    options=list(season_mapping.values()),
+    default=list(season_mapping.values())
+)
+
+# Apply filters to the dataset
+filtered_df = hour_df[
+    (hour_df['dteday'] >= pd.to_datetime(start_date)) &
+    (hour_df['dteday'] <= pd.to_datetime(end_date)) &
+    (hour_df['season'].map(season_mapping).isin(selected_season))
+]
+
 # Mapping weather condition
 weather_mapping = {
     1: 'Clear/Partly Cloudy',
@@ -23,8 +52,6 @@ hour_df['month'] = hour_df['datetime'].dt.month
 hour_df['weekday'] = hour_df['datetime'].dt.weekday
 hour_df['hour'] = hour_df['datetime'].dt.hour
 
-# Streamlit app
-st.title("Bike Sharing Data Analysis")
 
 # Pertanyaan 1: Tren Penggunaan Sepeda Berdasarkan Waktu
 st.write("## 1. Tren Penggunaan Sepeda Berdasarkan Waktu")
