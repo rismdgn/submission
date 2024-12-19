@@ -29,7 +29,7 @@ weather_mapping = {
 }
 hour_df['weather_category'] = hour_df['weathersit'].map(weather_mapping)
 hour_df['datetime'] = pd.to_datetime(hour_df['dteday']) + pd.to_timedelta(hour_df['hr'], unit='h')
-hour_df['mnth'] = hour_df['datetime'].dt.mnth
+hour_df['mnth'] = hour_df['datetime'].dt.month
 hour_df['weekday'] = hour_df['datetime'].dt.weekday
 hour_df['hour'] = hour_df['datetime'].dt.hour
 
