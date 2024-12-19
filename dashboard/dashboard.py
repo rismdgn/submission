@@ -96,7 +96,7 @@ elif analysis_option == "Dampak Cuaca pada Peminjaman Sepeda":
     
     # Average rentals by weather
     avg_rentals_by_weather = day_df.groupby('weathersit')['cnt'].mean()
-    st.write("### Average Rentals by Weather Situation")
+    st.write("### Rata rata peminjam sepeda berdasarkan kondisi cuaca")
     fig_weather, ax_weather = plt.subplots(figsize=(10, 6))
     avg_rentals_by_weather.plot(kind='bar', color=['green', 'orange', 'blue', 'red'], ax=ax_weather)
     ax_weather.set_title('Rata rata peminjam sepeda berdasarkan kondisi cuaca')
