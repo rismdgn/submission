@@ -68,6 +68,17 @@ ax_day.set_ylabel('Average Bike Rentals')
 ax_day.set_xticklabels(ax_day.get_xticklabels(), rotation=30)
 st.pyplot(fig_day)
 
+# Pilih jenis visualisasi
+chart_type = st.radio(
+    "Select Chart Type for Hourly Trend",
+    options=["Line Chart", "Bar Chart"]
+)
+
+if chart_type == "Line Chart":
+    sns.lineplot(x='hr', y='cnt', data=hourly_trend, ax=ax_hour, marker='o', color='blue')
+elif chart_type == "Bar Chart":
+    sns.barplot(x='hr', y='cnt', data=hourly_trend, ax=ax_hour, palette='Blues_d')
+    
 # Agregasi per bulan
 monthly_trend = hour_df.groupby('month')['cnt'].mean().reset_index()
 
