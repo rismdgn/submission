@@ -111,12 +111,25 @@ elif analysis_option == "Bike Rentals by Time of Day":
     
     # Rentals by time of day
     time_group = hour_df.groupby('time_of_day')['cnt'].mean().reset_index()
+    
+    # Sort the time_of_day column to maintain the correct order (Morning, Afternoon, Evening, Night)
     time_group = time_group.sort_values(by='time_of_day', key=lambda x: x.map({'Morning': 1, 'Afternoon': 2, 'Evening': 3, 'Night': 4}))
+    
     st.write("### Average Bike Rentals by Time of Day")
+    
+    # Create the barplot with customized style
     fig_time, ax_time = plt.subplots(figsize=(10, 6))
+    
+    # Plotting with Seaborn and making sure the colors match your style
     sns.barplot(x='time_of_day', y='cnt', data=time_group, ax=ax_time, palette='Blues_d')
+    
+    # Add title, labels, and grid as in your original code
     ax_time.set_title('Average Bike Rentals by Time of Day')
     ax_time.set_xlabel('Time of Day')
     ax_time.set_ylabel('Average Bike Rentals')
+    
+    # Customize gridlines (similar to your plot)
     ax_time.grid(True)
+    
+    # Display the plot in Streamlit
     st.pyplot(fig_time)
