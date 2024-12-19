@@ -7,7 +7,7 @@ import streamlit as st
 hour_df = pd.read_csv("dashboard/main_data.csv")
 day_df = pd.read_csv("dashboard/main_data.csv")
 
-st.title("Bike Sharing Data Analysi")
+st.title("Bike Sharing Data Analyze")
 
 # Sidebar untuk filter interaktif
 st.sidebar.header("Filters")
@@ -41,6 +41,9 @@ selected_weather = st.sidebar.multiselect(
     options=list(weather_mapping.values()),
     default=list(weather_mapping.values())
 )
+
+
+hour_df['dteday'] = pd.to_datetime(hour_df['dteday'])
 
 # Apply filters to the dataset
 filtered_df = hour_df[
