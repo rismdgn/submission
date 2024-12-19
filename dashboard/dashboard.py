@@ -94,6 +94,17 @@ ax_month.set_xticklabels(['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug'
 ax_month.grid(True)
 st.pyplot(fig_month)
 
+# Pilih jenis visualisasi
+chart_type = st.radio(
+    "Select Chart Type for Hourly Trend",
+    options=["Line Chart", "Bar Chart"]
+)
+
+if chart_type == "Line Chart":
+    sns.lineplot(x='hr', y='cnt', data=hourly_trend, ax=ax_hour, marker='o', color='blue')
+elif chart_type == "Bar Chart":
+    sns.barplot(x='hr', y='cnt', data=hourly_trend, ax=ax_hour, palette='Blues_d')
+
 # Pertanyaan 2: Pengaruh Cuaca
 st.write("## 2. Pengaruh Kondisi Cuaca terhadap Penyewaan Sepeda")
 
