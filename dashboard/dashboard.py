@@ -108,12 +108,24 @@ elif analysis_option == "Weather Impact on Rentals":
 
 elif analysis_option == "Bike Rentals by Time of Day":
     st.write("## Bike Rentals by Time of Day")
-    
-    # Rentals by time of day
+    hour_df['hr'] = hour_df['hr'].astype(int)
+
+    def assign_time_of_day(hr):
+        if 5 <= hr <= 11:
+        return 'Morning'
+        elif 12 <= hr <= 17:
+        return 'Afternoon'
+        elif 18 <= hr <= 21:
+        return 'Evening'
+        else:
+            return 'Night'
+    hour_df['time_of_day'] = hour_df['hr'].apply(assign_time_of_day)
+
+    # Agregasi data
     time_group = hour_df.groupby('time_of_day')['cnt'].mean().reset_index()
-    
-    # Sort the time_of_day column to maintain the correct order (Morning, Afternoon, Evening, Night)
-    time_group = time_group.sort_values(by='time_of_day', key=lambda x: x.map({'Morning': 1, 'Afternoon': 2, 'Evening': 3, 'Night': 4}))
+
+    # Sort hasil
+    time_group = time_group.sort_values(by='time_of_day', key=lambda x: x.map({'Morning': 1, 'Afternoon': 2, 'Evening': 3}))
     
     st.write("### Average Bike Rentals by Time of Day")
     
