@@ -45,6 +45,8 @@ selected_weather = st.sidebar.multiselect(
 
 hour_df['dteday'] = pd.to_datetime(hour_df['dteday'])
 
+hour_df['hour'] = pd.to_datetime(hour_df['datetime']).dt.hour
+
 # Apply filters to the dataset
 filtered_df = hour_df[
     (hour_df['dteday'] >= pd.to_datetime(start_date)) &
